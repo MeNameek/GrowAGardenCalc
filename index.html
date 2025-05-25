@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grow a Garden - Mutation Value Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    label, input, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .checkbox-group {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    .checkbox-group .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 4px 0;
+    }
+    .checkbox-group .row label {
+      flex: 1;
+    }
+    .checkbox-group .row input[type="checkbox"] {
+      margin-left: 10px;
+    }
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Grow a Garden: Mutation Value Calculator</h1>
+
+  <label for="baseValue">Base Value:</label>
+  <input type="number" id="baseValue" placeholder="Enter base value" />
+
+  <label for="growthMutation">Growth Mutation:</label>
+  <select id="growthMutation">
+    <option value="1">None (x1)</option>
+    <option value="25">Golden (x25)</option>
+    <option value="50">Rainbow (x50)</option>
+  </select>
+
+  <label>Environmental Mutations:</label>
+  <div class="checkbox-group">
+    <div class="row"><label>Wet (+1)</label><input type="checkbox" value="1" class="env" /></div>
+    <div class="row"><label>Chilled (+1)</label><input type="checkbox" value="1" class="env" /></div>
+    <div class="row"><label>Chocolate (+1)</label><input type="checkbox" value="1" class="env" /></div>
+    <div class="row"><label>Moonlit (+1)</label><input type="checkbox" value="1" class="env" /></div>
+    <div class="row"><label>Bloodlit (+4)</label><input type="checkbox" value="4" class="env" /></div>
+    <div class="row"><label>Plasma (+5)</label><input type="checkbox" value="5" class="env" /></div>
+    <div class="row"><label>Frozen (+10)</label><input type="checkbox" value="10" class="env" /></div>
+  </div>
+
+  <label>Additional Multipliers:</label>
+  <div class="checkbox-group">
+    <div class="row"><label>Zombified (x25)</label><input type="checkbox" value="25" class="extra" /></div>
+    <div class="row"><label>Shocked (x100)</label><input type="checkbox" value="100" class="extra" /></div>
+    <div class="row"><label>Celestial (x120)</label><input type="checkbox" value="120" class="extra" /></div>
+    <div class="row"><label>Disco (x125)</label><input type="checkbox" value="125" class="extra" /></div>
+  </div>
+
+  <button onclick="calculateValue()">Calculate Total Value</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateValue() {
+      const baseValue = parseFloat(document.getElementById('baseValue').value) || 0;
+      const growthMultiplier = parseFloat(document.getElementById('growthMutation').value);
+
+      let envTotal = 0;
+      document.querySelectorAll('.env:checked').forEach(cb => {
+        envTotal += parseFloat(cb.value);
+      });
+
+      let extraMultiplier = 1;
+      document.querySelectorAll('.extra:checked').forEach(cb => {
+        extraMultiplier *= parseFloat(cb.value);
+      });
+
+      const total = baseValue * growthMultiplier * extraMultiplier * (1 + envTotal);
+
+      document.getElementById('result').innerHTML = `
+        <strong>Total Value:</strong> ${total.toLocaleString()}
+      `;
+    }
+  </script>
+</body>
+</html>
