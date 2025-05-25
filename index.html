@@ -141,24 +141,25 @@
   <div class="result" id="result"></div>
 
   <script>
-    function calculateValue() {
+        function calculateValue() {
       const baseValue = parseFloat(document.getElementById('baseValue').value) || 0;
       const growthMultiplier = parseFloat(document.getElementById('growthMutation').value);
-
+    
       let envTotal = 0;
       document.querySelectorAll('.env:checked').forEach(cb => {
         envTotal += parseFloat(cb.value);
       });
-
-      let extraMultiplier = 1;
+    
+      // Apply each extra multiplier one-by-one (no multiplying all extras together)
+      let result = baseValue * growthMultiplier;
+      result *= (1 + envTotal);
+    
       document.querySelectorAll('.extra:checked').forEach(cb => {
-        extraMultiplier *= parseFloat(cb.value);
+        result *= parseFloat(cb.value);
       });
-
-      const total = baseValue * growthMultiplier * extraMultiplier * (1 + envTotal);
-
+    
       document.getElementById('result').innerHTML = `
-        <strong>Total Value:</strong> ${total.toLocaleString()} Sheckles
+        <strong>Total Value:</strong> ${Math.round(result).toLocaleString()} Sheckles
       `;
     }
   </script>
